@@ -1,9 +1,12 @@
 # Dependecnias del proyecto
-from flask import Flask
+from flask import Flask, render_template
 from config  import Config
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+
 
 
 app = Flask(__name__)
@@ -12,6 +15,13 @@ app.config.from_object(Config)
 # Iniciar el objeto de SQLAlchemy
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# Crear formulario de registro de Cliente 
+class registroClienteForm(FlaskForm):
+    username = StringField("Nombre de usuario")
+    email = StringField("Email")
+    password = PasswordField("Password")
+    submit = SubmitField("Registrar cliente")
 
 # Modelos - entidades del proyecto
 class Cliente(db.Model):
@@ -43,3 +53,24 @@ class Detalles(db.Model):
     
 # class ():
 #     hola = str
+
+@app.route('/clientes/create',
+           methods = ['GET','POST'])
+def crear_cliente():
+    form = registroClienteForm()
+    if form.validate_on_submit():
+        # CREAR CLIENTE
+        
+        c = Cliente(username = form.username.data, email = form.email.data, password = form.password.data)
+        db.session.add(c)
+        db.session.commit()
+        return "Cliente Registrado melo"
+    
+    return render_template('registro.html', form = form)
+
+@app.route('/clientes', 
+           methods = ['GET'])
+def listar():
+    # Seleccionar todos los clientes
+    clientes = Cliente.query.all()
+    return render_template('listar.html', clientes = clientes)
