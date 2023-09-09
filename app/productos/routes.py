@@ -20,12 +20,12 @@ def crear():
             archivo.save(os.path.abspath(os.getcwd() + "\\app\\productos\\imagenes\\"+ producto.imagen))
             flash("Producto registrado correctamente")
             return redirect('/productos/listar')
-        return render_template('crear.html', form = form)
+        return render_template('crearProduct.html', form = form)
 
 @productos.route('/listar')
 def listar():
     productos = app.models.Producto.query.all()
-    return render_template("listar.html",
+    return render_template("listarProduct.html",
                            productos = productos)
 
 @productos.route('/eliminar/<producto_id>')
@@ -36,7 +36,6 @@ def eliminar(producto_id):
         app.db.session.delete(p)
         app.db.session.commit()
         flash('Producto eliminado')
-        
     return redirect ('/productos/listar')
 
 
@@ -49,6 +48,6 @@ def editar(producto_id):
         app.db.session.commit()
         flash('Producto actualizado')
         return redirect('/productos/listar')
-    return render_template("crear.html", 
+    return render_template("crearProduct.html", 
                            form = form)
 

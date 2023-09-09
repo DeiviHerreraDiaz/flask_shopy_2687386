@@ -5,7 +5,7 @@
 
 
 
-<h1>LISTAR PRODUCTOS</h1>
+<h1>LISTAR CLIENTES</h1>
 
 {% for mensaje in get_flashed_messages() %}
 
@@ -25,9 +25,9 @@
 
 
 
-<a href="/productos/crear" class="btn btn-info">
+<a href="/clientes/crear" class="btn btn-info">
 
-    Nuevo producto
+    Nuevo Cliente
 
 </a>
  
@@ -38,31 +38,27 @@
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Precio</th>
-            <th>Imagen</th>
+            <th>Contraseña</th>
+            <th>Email</th>
             <th colspan="2" class="text-center">Acciones</th>
         </tr>
     </thead>
 
     <tbody>
-        {% for producto in productos %}
+        {% for cliente in clientes %}
         <tr>
-            <td> {{producto.nombre}} </td>
-            <td> {{producto.precio}}  </td>
-            <td> <img src="imagenes/{{producto.imagen}}"  width="200px" height="200px"   alt="">  </td>
+            <td> {{cliente.username}} </td>
+            <td> {{cliente.password}}  </td>
+            <td> {{cliente.email}}  </td>
             <td>
-            
-                <a href="/productos/editar/{{producto.id}}" class="btn btn-primary">
+                <a href="/clientes/editar/{{cliente.id}}" class="btn btn-primary">
                     Actualizar
                 </a>
-            
             </td>
             <td>
-            
-                <a href="/productos/eliminar/{{producto.id}}" class="btn btn-danger">
+                <a href="/clientes/eliminar/{{cliente.id}}" class="btn btn-danger">
                     Borrar
                 </a>
-            
             </td>
         <tr>
         
