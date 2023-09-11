@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, EmailField
-from wtforms.validators import InputRequired, Length
+from wtforms import StringField, SubmitField, EmailField
+from wtforms.validators import InputRequired, Length, Email
 from flask_wtf.file import *
 
 class ClienteForm(FlaskForm):
@@ -11,7 +11,10 @@ class ClienteForm(FlaskForm):
                               Length(min=8, max=20, message="Contraseña consta de 8 a 20 caracteres")
                           ])
     email = EmailField("Ingrese correo electrónico",
-                       validators=[InputRequired(message="Correo obligatorio")])
+                       validators=[
+                           InputRequired(message="Correo obligatorio"),
+                           Email(message="Debe ser un correo electrónico válido")
+                       ])
 
 class NewClientForm(ClienteForm):
     submit = SubmitField("Crear")
