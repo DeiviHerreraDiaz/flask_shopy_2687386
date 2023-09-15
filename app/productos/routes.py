@@ -1,11 +1,14 @@
 from app.productos import productos
 from flask import render_template, redirect, flash
+from flask_login import login_required
 from .forms  import NewProductForm, EditProductForm
 import app
 import os
 
 
+
 @productos.route('/crear',  methods = ['GET', 'POST'])
+@login_required
 def crear():        
         producto = app.models.Producto()
         form = NewProductForm()
@@ -23,12 +26,14 @@ def crear():
         return render_template('crearProduct.html', form = form)
 
 @productos.route('/listar')
+@login_required
 def listar():
     productos = app.models.Producto.query.all()
     return render_template("listarProduct.html",
                            productos = productos)
 
 @productos.route('/eliminar/<producto_id>')
+@login_required
 def eliminar(producto_id):
     
     p = app.models.Producto.query.get(producto_id)
@@ -40,6 +45,7 @@ def eliminar(producto_id):
 
 
 @productos.route('/editar/<producto_id>', methods = ['GET','POST'])
+@login_required
 def editar(producto_id):
     p = app.models.Producto.query.get(producto_id)
     form = EditProductForm(obj = p)
